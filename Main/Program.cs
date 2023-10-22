@@ -61,6 +61,10 @@ public class Game
     //Need create raycast 
     //create map
     //
+    float rangeMin = 0;
+    float rangeMax = 0;
+    float x0 = -Screen.center.X;
+    float y0 = 0;
     public void Draw()
     {
         Console.CursorVisible = false;
@@ -69,10 +73,10 @@ public class Game
         {
             for (int x = -Screen.center.X; x < Screen.center.X; x++)
             {
-                var x1 = (float)x / Screen.scale.X * 2;
-                var y1 = (float)y / Screen.scale.Y * 2;
-                var xy = x1 * x1 + y1 * y1;
-                if (xy < 0.5f && xy > 0.4f)
+                var x1 = x - MathF.Sin(x0) * 100;
+                var y1 = y - y0;
+                var formula = x1 * x1 + y1 * y1 * 3.8;
+                if (formula < MathF.Abs(MathF.Cos(rangeMax)) * 1000 && formula > MathF.Abs(MathF.Cos(rangeMin)) * 500)
                 {
                     consoleScreen.Append('1');
                 }
@@ -82,6 +86,9 @@ public class Game
         }
         Cursor();
         Print(consoleScreen.ToString());
+        rangeMax += 0.01f;
+        rangeMin += 0.01f;
+        x0 += 0.01f;
     }
     public void Clear()
     {
