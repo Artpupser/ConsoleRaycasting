@@ -1,10 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Numerics;
-using System.Text;
-using static ConsoleRaycasting.Main.Tools;
-
-namespace ConsoleRaycasting.Main;
-
+﻿namespace ConsoleRaycasting.Main;
+using ConsoleRaycasting.Components;
 public class Program
 {
     static void Main(string[] args) => new Program().Main();

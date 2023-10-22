@@ -48,10 +48,12 @@ public class Game : IGame
         for (int y = -Screen.center.Y; y < Screen.center.Y; y++)
             for (int x = -Screen.center.X; x < Screen.center.X; x++)
             {
-                var x1 = x - MathF.Sin(x0) * 100;
-                var y1 = y - y0;
+                var x1 = x - MathF.Cos(x0) * 100;
+                var y1 = y - MathF.Sin(y0) * 20;
                 var formula = x1 * x1 + y1 * y1 * 3.8;
-                if (formula < MathF.Abs(MathF.Cos(rangeMax)) * 1000 && formula > MathF.Abs(MathF.Cos(rangeMin)) * 500)
+                var max = MathF.Abs(MathF.Cos(rangeMax));
+                var min = MathF.Abs(MathF.Cos(rangeMin));
+                if ((formula < max * 3000 && formula > min * 2500) || (formula < max * 1500 && formula > min * 1000))
                 {
                     consoleScreen.Append('x');
                     continue;
@@ -62,9 +64,7 @@ public class Game : IGame
         //stats
         var stats = $"PX = {player.Position.X} PY = {player.Position.Y} PA = {player.Rotate}";
         for (int i = 0; i < stats.Length; i++)
-        {
             consoleScreen[i] = stats[i];
-        }
         //map
         for (int y = 0; y < map.heightMap; y++)
             for (int x = 0; x < map.widthMap; x++)
@@ -77,6 +77,7 @@ public class Game : IGame
         rangeMax += 0.01f;
         rangeMin += 0.01f;
         x0 += 0.01f;
+        y0 += 0.05f;
     }
     private void Controller()
     {
