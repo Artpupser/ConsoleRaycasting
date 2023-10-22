@@ -17,9 +17,33 @@ public class Game
 {
     private string clearScreen = new string(' ', Screen.scale.X * Screen.scale.Y);
     private StringBuilder consoleScreen = new StringBuilder();
+    private StringBuilder map = new();
     private ConsoleKey currentKeyPressed { get; set; }
     private const byte targetFrameRate = 60;
     private int oneFrameTime = 1000 / 60;
+    public void Init()
+    {
+        consoleScreen.Append("11111111111111111111111");
+        consoleScreen.Append("1          1          1");
+        consoleScreen.Append("1          1          1");
+        consoleScreen.Append("1                1    1");
+        consoleScreen.Append("1                1    1");
+        consoleScreen.Append("1          1          1");
+        consoleScreen.Append("1          1          1");
+        consoleScreen.Append("1          1          1");
+        consoleScreen.Append("1                1    1");
+        consoleScreen.Append("1          1          1");
+        consoleScreen.Append("1          1          1");
+        consoleScreen.Append("1                1    1");
+        consoleScreen.Append("1          1          1");
+        consoleScreen.Append("1          1          1");
+        consoleScreen.Append("1          1          1");
+        consoleScreen.Append("1                     1");
+        consoleScreen.Append("1                     1");
+        consoleScreen.Append("1          1          1");
+        consoleScreen.Append("1          1          1");
+        consoleScreen.Append("11111111111111111111111");
+    }
     public void Start()
     {
         Thread thread = new(new ThreadStart(Controller));
@@ -34,6 +58,9 @@ public class Game
             Draw();
         }
     }
+    //Need create raycast 
+    //create map
+    //
     public void Draw()
     {
         Console.CursorVisible = false;
