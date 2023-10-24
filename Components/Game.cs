@@ -6,7 +6,8 @@ using static ConsoleRaycasting.Main.Tools;
 
 public class Game : IGame
 {
-    private Player player = new();
+    private Raycasting raycasting;
+    private Player player;
     private Map map = new();
     private Random rnd = new();
     private StringBuilder consoleScreen = new();
@@ -14,7 +15,9 @@ public class Game : IGame
     private int oneFrameTime = 1000 / targetFrameRate;
     public Game()
     {
-        bool isCorrectSpawn = false;
+        player = new(new(0));
+        raycasting = new(map, player);
+        var isCorrectSpawn = false;
         while (!isCorrectSpawn)
         {
             player.Position = new(rnd.Next(0, map.widthMap), rnd.Next(0, map.heightMap));
@@ -25,7 +28,7 @@ public class Game : IGame
     {
         var controller = new Thread(new ThreadStart(Controller));
         controller.Start();
-        Print($"{map.widthMap} {map.heightMap}");
+        //Print($"{map.widthMap} {map.heightMap}");
         Update();
     }
     public void Update()
@@ -36,30 +39,17 @@ public class Game : IGame
             Draw();
         }
     }
-    float rangeMin = 0;
-    float rangeMax = 0;
-    float x0 = -Screen.center.X;
-    float y0 = 0;
     public void Draw()
     {
         Console.CursorVisible = false;
         consoleScreen.Clear();
-        //draw game
-        for (int y = -Screen.center.Y; y < Screen.center.Y; y++)
-            for (int x = -Screen.center.X; x < Screen.center.X; x++)
-            {
-                var x1 = x - MathF.Cos(x0) * 100;
-                var y1 = y - MathF.Sin(y0) * 20;
-                var formula = x1 * x1 + y1 * y1 * 3.8;
-                var max = MathF.Abs(MathF.Cos(rangeMax));
-                var min = MathF.Abs(MathF.Cos(rangeMin));
-                if ((formula < max * 3000 && formula > min * 2500) || (formula < max * 1500 && formula > min * 1000))
-                {
-                    consoleScreen.Append('x');
-                    continue;
-                }
-                consoleScreen.Append(' ');
-            }
+        consoleScreen.Append(new string(' ', Screen.scale.X * Screen.scale.Y));
+        //get Rays
+
+        List<Ray> rays = new();
+        for (var x =  0; x < Screen.scale.X; x++)
+            rays.Add(raycasting.GetRay(x));
+        raycasting.DrawScreen(rays, consoleScreen);
         //draw gui
         //stats
         var stats = $"PX = {player.Position.X} PY = {player.Position.Y} PA = {player.Rotate}";
@@ -74,22 +64,18 @@ public class Game : IGame
             }
         Cursor();
         Print(consoleScreen.ToString());
-        rangeMax += 0.01f;
-        rangeMin += 0.01f;
-        x0 += 0.01f;
-        y0 += 0.05f;
     }
     private void Controller()
     {
         void MoveFront()
         {
-            player.Position.X += MathF.Cos(player.Rotate) * Player.SpeedMove;
-            player.Position.Y += MathF.Sin(player.Rotate) * Player.SpeedMove;
+            player.Position.X += MathF.Sin(player.Rotate) * Player.SpeedMove;
+            player.Position.Y += MathF.Cos(player.Rotate) * Player.SpeedMove;
         }
         void MoveDown()
         {
-            player.Position.X -= MathF.Cos(player.Rotate) * Player.SpeedMove;
-            player.Position.Y -= MathF.Sin(player.Rotate) * Player.SpeedMove;
+            player.Position.X -= MathF.Sin(player.Rotate) * Player.SpeedMove;
+            player.Position.Y -= MathF.Cos(player.Rotate) * Player.SpeedMove;
         }
         void Rotate(sbyte right) => player.Rotate += right * Player.SpeedRotate;
         Dictionary<ConsoleKey, Action> keyToAction = new()
@@ -97,16 +83,16 @@ public class Game : IGame
             [ConsoleKey.W] = () =>
             {
                 MoveFront();
-                if (map.content[(int)player.Position.Y * map.widthMap + (int)player.Position.X] == '#')
+                if (map.content[(int)player.Position.Y * map.widthMap + (int)player.Position.X] == '.')
                     MoveDown();
             },
             [ConsoleKey.S] = () => {
                 MoveDown();
-                if (map.content[(int)player.Position.Y * map.widthMap + (int)player.Position.X] == '#')
+                if (map.content[(int)player.Position.Y * map.widthMap + (int)player.Position.X] == '.')
                     MoveFront();
             },
-            [ConsoleKey.RightArrow] = () => { Rotate(1); },
-            [ConsoleKey.LeftArrow] = () => { Rotate(-1); }
+            [ConsoleKey.RightArrow] = () => { Rotate(-1); },
+            [ConsoleKey.LeftArrow] = () => { Rotate(1); }
         };
         while (true)
             if (keyToAction.TryGetValue(Console.ReadKey(true).Key, out var action))
