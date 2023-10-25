@@ -1,4 +1,4 @@
-﻿namespace ConsoleRaycasting.Main;
+﻿namespace ConsoleRaycasting.Lib;
 public class Math
 {
     public static float GetRadian(float angle) => angle * MathF.PI / 180;

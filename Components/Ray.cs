@@ -1,18 +1,16 @@
 ﻿using ConsoleRaycasting.Components;
-
+#nullable disable
 [Serializable]
 public class Ray
 {
     private float distance;
-    private List<GameObject> solids;
+    private GameObject stop;
 
-    public Ray(float distance, List<GameObject> solids)
+    public Ray(float distance)
     {
         Distance = distance;
-        Solids = solids;
     }
 
     public float Distance { get => distance; set => distance = value; }
-    public List<GameObject> Solids { get => solids; set => solids = value; }
-    public GameObject Stop { get; set; }
+    public GameObject Stop { get => stop; set => stop = value; }
 }

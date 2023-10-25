@@ -2,5 +2,4 @@
 {
     Empty,
     Wall,
-    Coin
 }

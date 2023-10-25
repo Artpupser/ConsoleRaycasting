@@ -22,7 +22,7 @@ namespace ConsoleRaycasting.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace ConsoleRaycasting.Properties {
         ///   Возвращает кэшированный экземпляр ResourceManager, использованный этим классом.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ConsoleRaycasting.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace ConsoleRaycasting.Properties {
         ///   обращений к ресурсу с помощью этого класса ресурса со строгой типизацией.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,11 +61,30 @@ namespace ConsoleRaycasting.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на .
+        ///   Ищет локализованную строку, похожую на ....................
+        ///.                  .
+        ///.                  .
+        ///.                  .
+        ///.                  .
+        ///.                  .
+        ///.                  .
+        ///.                  .
+        ///.                  .
+        ///.                  .
+        ///.                  .
+        ///.                  .
+        ///.                  .
+        ///.                  .
+        ///.                  .
+        ///.                  .
+        ///.                  .
+        ///.                  .
+        ///.                  .
+        ///.....................
         /// </summary>
-        internal static string Map {
+        public static string ExampleMap {
             get {
-                return ResourceManager.GetString("Map", resourceCulture);
+                return ResourceManager.GetString("ExampleMap", resourceCulture);
             }
         }
     }
